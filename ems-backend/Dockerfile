@@ -1,10 +1,10 @@
-# Use Maven to build the JAR
-FROM maven:3.8.6-openjdk-17 AS build
+# Build Stage
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY . .
-RUN mvn -q -DskipTests clean package
+RUN mvn clean package -DskipTests
 
-# Use lightweight JDK to run the app
+# Run Stage
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
